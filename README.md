@@ -1,4 +1,4 @@
-# Web Engineering Coding Playground
+# Web Engineering Coding Playground Template
 
 This repository is designed as the foundation for coding playgrounds in the Web Engineering course. It offers a structured space for experimenting with and mastering various web development technologies and practices. 
 The project is based on [this](https://developer.mozilla.org/en-US/docs/Learn/Accessibility/Accessibility_troubleshooting) repository from MDN.
