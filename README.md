@@ -177,6 +177,12 @@ What other accessibility issues did you find? Explain how you did fix them.
 Please create a new independent Repository for these playgrounds and submit a link to it in the Moodle submission. 
 Additionally, provide a description of how to start your frontend and backend services inside the `README.md`.
 
+## Submission
+Submit your coding repository link in Moodle. Send me an invitation to your repository if it is set to private:
+> GitHub: leonardo1710
+> 
+> GitLab: leon.freudenthaler@fh-campuswien.ac.at
+
 ## 5. Migrate to a Frontend Framework (10 pts.)
 In this playground you will migrate your application to a frontend framework of your choice.
 
