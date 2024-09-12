@@ -25,8 +25,12 @@ The project introduces a lot of code smells for you to tackle.
 - Worst JS coding practices :cold_sweat:
 - No Build and Dependency Management at all :fire:
 
+
+
+# Base Coding Playgrounds
+
 ## K.O. Criteria
-* No JS Frameworks allowed to solve the playgrounds (e.g. Vue.js, Angular, React, Svelte,...) - don't panic we will come to them!
+* No JS Frameworks allowed to solve the base coding playgrounds (e.g. Vue.js, Angular, React, Svelte,...) - don't panic we will come to them!
 * No CSS Libraries allowed (e.g. Bootstrap, Material, Tailwind, ...)
 
 ## Submission
@@ -35,16 +39,14 @@ Submit your coding repository link in Moodle. Send me an invitation to your repo
 > 
 > GitLab: leon.freudenthaler@fh-campuswien.ac.at
 
-# Base Coding Playgrounds
-
 ## 1. JS Playground (10 Pts.)
 The provided base project template contains some bugs and bad JS coding practices for you to fix in your first playground. Take a look into the component files and get a grasp of the inner workings of the provided project.
-> **ATTENTION: After finishing the JS Playground please create a commit or branch and link it below. Otherwise it is not possible to grade your submission, since we will switch to TypeScript afterwards!**
+> **ATTENTION: After finishing the JS Playground please create a commit or branch and link it below. Otherwise it is not possible to grade your 1. submission, since we will switch to TypeScript afterwards!**
 > 
 > **This is my JS Playground commit/branch:** <LINK_TO_YOUR_COMMIT>
 
 **Tasks:**
-Fix application code and answer the question:
+Fix application code and answer the questions:
 * (2) Adapt the code to use ``async/await`` instead of the ``then()``-callback hell and refactor the functions to use arrow function syntax instead of ``function()``-syntax.
 * (2) Add proper error handling to the code using ``try/catch`` and provide useful error messages to the users. Additionally, check the image URL availability before rendering the images in HTML. Provide placeholder images if the given URL does not exist.
 * (1) Extract the range value from the provided Wikitext (response from the API). Examine the provided Wikitext format inside `extractBears` function. 
@@ -129,7 +131,7 @@ Here are some additional resources: [GitHub Actions Tutorial](https://github.com
 
 ## 4.	Accessibility Playground (5 Pts.)
 You might have noticed that the base project has a number of accessibility issues - your task is to explore the existing site and fix them.
-Use the tools presented in our accessibility workshop to test your project.
+Use the tools presented in our accessibility workshop to test the accessibility in your project.
 
 **(0.5) Color** 
 
@@ -169,7 +171,7 @@ The data table is not currently very accessible — it is hard for screen reader
 
 **(1) More Findings**
 
-What other accessibility issues did you find? Explain how you would fix them.
+What other accessibility issues did you find? Explain how you did fix them.
 
 # Extended Coding Playgrounds
 Please create a new independent Repository for these playgrounds and submit a link to it in the Moodle submission. 
