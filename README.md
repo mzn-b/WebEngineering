@@ -56,8 +56,6 @@ Fix application code and answer the questions:
 * (4) Adapt the code to use ``async/await`` instead of the ``then()``-callback hell and refactor the functions to use arrow function syntax instead of ``function()``-syntax.
 * (4) Eliminate the remaining bad coding practices that you can find. Take notes of why they are a bad practice and how you did fix it below. 
 
-<div style="border: 2px solid #FFA500; padding: 10px; margin: 10px 0;">
-
 > **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
 > 
 > _Present your findings here..._
