@@ -58,13 +58,13 @@ Fix application code and answer the questions:
 
 <div style="border: 2px solid #FFA500; padding: 10px; margin: 10px 0;">
 
-**What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
-
-<i>Present your findings here...</i>
-``` JS
-console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
-```
-</div>
+> **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
+> 
+> _Present your findings here..._
+>
+> ```js
+> console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
+> ```
 
 
 ## 2. Dependency- and Build Management Playground
@@ -87,9 +87,10 @@ Build the application with ``npm`` and a build and a dependency management tool 
   * (2) Development Workflow should at least lint (optionally test) your code when developers push to a branch named `development`.
   * (3) Deployment Workflow is triggered when developers push into `production` branch. It should at least lint and build your source code. Afterwards the build artifacts of your application should be automatically deployed to Github Pages (or another hosting provider of your choice).
 
-<div style="border: 2px solid #FFA500; padding: 10px; margin: 10px 0;">
-  <b><i>Insert GitHub Pages URL here...</i></b> 
-</div>
+> 
+> _Insert GitHub Pages URL here......_
+>
+> 
 
 **ESLint Configurations**
 
@@ -137,9 +138,10 @@ Additionally, refactor your project by encapsulating the comments section into a
 * (6) Create a web component for the "Add comment" section. Use te shadow DOM and <code>template</code> syntax to encapsulate all related styles inside the component. 
 
 
-<div style="border: 2px solid #FFA500; padding: 10px; margin: 10px 0;">
-  <i>Present your findings and fixes here...</i>
-</div>
+> 
+> _Present your findings here..._
+>
+ 
 
 ## 4. Migrate to a Frontend Framework
 In this playground you will migrate your application to a frontend framework of your choice.
