@@ -20,7 +20,7 @@ The project introduces a lot of code smells for you to tackle.
 * [2nd Playground](#2-dependency--and-build-management-playground): 14.10.2025
 * [3rd Playground](#3-accessibility--and-web-component-playground): 30.10.2025
 * [4th Playground](#4-migrate-to-a-frontend-framework): 25.11.2025
-* [5th Playground](#5-integrate-a-backend-framework): 02.12.2025
+* [5th Playground](#5-integrate-a-backend-framework): 17.12.2025
 
 ## Features
 
