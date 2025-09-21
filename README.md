@@ -58,10 +58,263 @@ Fix application code and answer the questions:
 
 > **What bad coding practices did you find? Why is it a bad practice and how did you fix it?**
 > 
-> _Present your findings here..._
->
+> Bad practice? Not using strict mode\
+> Why is this bad? Allows silent errors, allows assigning to readonly values, allows duplicate parameter names, defaults this to window\
+> Fix: Used strict mode in all files
 > ```js
-> console.log('Make use of markdown codesnippets to show and explain good/bad practices!')
+> 'use strict'
+> ```
+> 
+> Bad practice? Vars used for creating variables\
+> Why is this bad? Variable content can change (rebinding) unexpectedly \
+> Fix? Replaced vars with consts where possible. (Important note: not immutable! → arrays could still get values added/removed, etc)
+> ```js
+> // Before
+> var searchKey = this.q.value.trim();
+> // After
+> const searchKey = this.q.value.trim();
+> ```
+> 
+> Bad practice? Using apply instead of spread syntax\
+> Why is this bad? Outdated practice, less concise\
+> Fix? Replace apply with spread operator
+> ```js
+> // Before
+> node.replaceWith.apply(node, span.childNodes);
+> // After
+> node.replaceWith(...span.childNodes);
+> ```
+> 
+> Bad practice? Using the "this" keyword\
+> Why is this bad? undefined in strict mode, returns window in non strict mode -> just use window directly\
+> Fix? Replace this with explicit values
+> ```js
+> // Before
+> const searchKey = this.q.value.trim();
+> // After
+> const searchKey = e.currentTarget.q.value.trim();
+> ```
+>
+> Bad practice? Not introducing variables\
+> Why is this bad? Reduces code readability, reduces reusability\
+> Fix? Introduce variables
+> ```js
+> // Before
+> document.querySelector('.search').addEventListener('submit', function(e) {})
+> // After
+> const form = document.querySelector('.search');
+> form.addEventListener('submit', (e) => {})
+> ```
+> 
+> Bad practice? Using magic values\
+> Why is this bad? Hard to understand without comments, gets confusing later\
+> Fix? Use descriptive variables (either pre-existing or create new ones) for magic values
+> ```js
+> // Before
+> if (node.nodeType === 3) { // Text node }
+> // After
+> if (node.nodeType === Node.TEXT_NODE) {}
+> ```
+> 
+> Bad practice? Long functions with many responsibilities\
+> Why is this bad? Reduces readability, reduces reusability, makes the code messy\
+> Fix? Split into several functions
+> ```js
+> // Before
+> document.querySelector('.search').addEventListener('submit', function(e) {
+>    e.preventDefault();
+>
+>    document.querySelectorAll('.highlight').forEach(function(el) {
+>      var parent = el.parentNode;
+>      parent.replaceChild(document.createTextNode(el.textContent), el);
+>      parent.normalize();
+>    });
+>
+>    var searchKey = this.q.value.trim();
+>    if (!searchKey) return;
+>
+>    var regex = new RegExp('(' + searchKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + ')', 'gi');
+>
+>    function walk(node) {
+>      if (node.nodeType === 3) { // Text node
+>        var match = node.nodeValue.match(regex);
+>        if (match) {
+>          var span = document.createElement('span');
+>          span.innerHTML = node.nodeValue.replace(regex, '<mark class="highlight">$1</mark>');
+>          node.replaceWith.apply(node, span.childNodes);
+>        }
+>      } 
+>      else if (node.nodeType === 1 && node.tagName !== 'SCRIPT' && node.tagName !== 'STYLE' && node.tagName !== 'FORM') {
+>        node.childNodes.forEach(walk);
+>      }
+>    }
+>
+>    walk(document.body);
+>  });
+> 
+> // After
+> form.addEventListener('submit', (e) => {
+>    e.preventDefault();
+>
+>    clearHighlights(content);
+>
+>    const input = e.currentTarget.querySelector('[name="q"]');
+>    const searchKey = input.value.trim();
+>    if (!searchKey) return;
+>
+>    highlight(content, searchKey);
+> });
+>
+> const clearHighlights = (root) => {
+>   root.querySelectorAll('.highlight').forEach((el) => {
+>   const text = document.createTextNode(el.textContent);
+>   el.replaceWith(text);
+>   });
+>   root.normalize();
+> }
+>
+> const getNodesToReplace = (walker, regex) => {
+>   const nodesToReplace = [];
+>
+>   while (walker.nextNode()) {
+>       const node = walker.currentNode;
+>       if (regex.test(node.nodeValue)) {
+>           nodesToReplace.push(node);
+>       }
+>   }
+>
+>   return nodesToReplace;
+> }
+>
+> const highlight = (root, searchKey) => {
+>   const regex = new RegExp(
+>       `(${searchKey.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')})`,
+>       'gi'
+>   );
+>
+>   const walker = document.createTreeWalker(
+>        root,
+>        NodeFilter.SHOW_TEXT,
+>        {
+>            acceptNode(node) {
+>                const parent = node.parentNode;
+>                if (!parent) return NodeFilter.FILTER_REJECT;
+>                const tag = parent.nodeName;
+>                if (['SCRIPT', 'STYLE', 'FORM'].includes(tag)) {
+>                    return NodeFilter.FILTER_REJECT;
+>                }
+>                if (parent?.classList.contains('highlight')) {
+>                    return NodeFilter.FILTER_REJECT;
+>                }
+>                return NodeFilter.FILTER_ACCEPT;
+>            }
+>       }
+>    );
+>
+>    const nodesToReplace = getNodesToReplace(walker, regex);
+>
+>    nodesToReplace.forEach(node => {
+>        const parts = node.nodeValue.split(regex);
+>        if (parts.length <= 1) {
+>            return;
+>        }
+>
+>        const fragment = document.createDocumentFragment();
+>        parts.forEach((part, i) => {
+>            if (i % 2 === 1) {
+>                const mark = document.createElement('mark');
+>                mark.className = 'highlight';
+>                mark.textContent = part;
+>               fragment.appendChild(mark);
+>            } else {
+>                fragment.appendChild(document.createTextNode(part));
+>            }
+>        });
+>        node.replaceWith(fragment);
+>    });
+> };
+> ```
+> 
+> Bad practice? Overwriting the DOM with innerHTML\
+> Why is this bad? Allows XSS injection if input isn't sanitized\
+> Fix? Use the built-in createElement method instead
+> ```js
+> // Before
+> span.innerHTML = node.nodeValue.replace(regex, '<mark class="highlight">$1</mark>')
+> // After
+> const mark = document.createElement('mark');
+> mark.className = 'highlight';
+> mark.textContent = part;
+> fragment.appendChild(mark);
+> ```
+> 
+> Bad practice? Relying on a string literal for display logic\
+> Why is this bad? Very error prone (typos, etc)\
+> Fix? Replace with boolean state
+> ```js
+> // Before
+> showHideBtn.onclick = () => {
+>   const showHideText = showHideBtn.textContent;
+>   if (showHideText === 'Show comment') {
+>       showHideBtn.textContent = 'Hide comments';
+>       commentWrapper.style.display = 'block';
+>   } else {
+>       showHideBtn.textContent = 'Show comments';
+>       commentWrapper.style.display = 'none';
+>   }
+> }; 
+> // After
+> showHideBtn.onclick = () => {
+>   const isHidden = commentWrapper.classList.toggle('hidden');
+>   showHideBtn.textContent = isHidden ? 'Show comments' : 'Hide comments';
+> };
+> ```
+> 
+> Bad practices? Setting a style on load of script file && using inline styles instead of classes\
+> Why is this bad? Error prone, pointless resource usage && less reusability\
+> Fix? Set the default style in the html or css directly && introduce more classes
+> ```css
+> /* Before */
+> .comment-wrapper { display: block; } 
+> /* After */
+> .comment-wrapper { display: block; } 
+> .hidden { display: none; } 
+> ```
+> ```js
+> // Deleted
+> commentWrapper.style.display = 'none';
+> ```
+> 
+> Bad practice? Console logs in code\
+> Why is this bad? Could contain sensitive information, not good for production code\
+> Fix? Remove console logs
+> 
+> Bad practice? Assigning a function to form.onSubmit directly\
+> Why is this bad? if another scripts sets the value this function get overwritten\
+> Fix? Set an eventListener instead
+> ```js
+> // Before
+> form.onsubmit = (e) => {}
+> // After
+> form.addEventListener('submit', (e) => {})
+> ```
+> 
+> ### Not bad practices, just other fixes
+>
+> Using block returns for inline functions where not necessary (not bad, I just don't like it)
+> ```js
+> // Before
+> (res) => {return res.json();}
+> // After
+> (res) => res.json()
+> ```
+> 
+> Typos in the code
+> ```js
+> // Before
+> const nameValue = nameField.valeu;
+> // After
+> const nameValue = nameField.value;
 > ```
 
 
