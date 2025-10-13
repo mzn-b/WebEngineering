@@ -248,3 +248,9 @@ audio {
 .comment-container li p:nth-child(2) {
   flex: 5;
 }
+
+body { font-family: Arial, sans-serif; }
+.highlight { background-color: yellow; color: black; }
+.comment-wrapper { display: block;}
+.hidden { display: none; }
+.error { color: red; }
