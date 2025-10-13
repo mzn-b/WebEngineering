@@ -21,6 +21,7 @@
     ]
   },
   "devDependencies": {
+    "@types/node": "^24.7.2",
     "eslint": "^9.37.0",
     "eslint-config-love": "^133.0.0",
     "eslint-config-prettier": "^10.1.8",
