@@ -388,11 +388,41 @@ Additionally, refactor your project by encapsulating the comments section into a
 
 * (6) Create a web component for the "Add comment" section. Use te shadow DOM and <code>template</code> syntax to encapsulate all related styles inside the component. 
 
+### Findings
+#### Colors 
+I ran Lighthouse to check the colors and contrasts and it found two issues
+White on White\
+![white on white contrast image](readme-images/white-white-contrast.png)\
+Black on Green\
+![black on green contrast image](readme-images/green-black-contrast.png)\
+I used this contrast checker to find the closest accessible color so that the feeling of the page doesn't change but the accessibility improves:
+https://dequeuniversity.com/rules/axe/4.10/color-contrast
 
-> 
-> _Present your findings here..._
->
- 
+#### Semantic HTML
+* Added a meta tag with viewport info
+* Replace `<div class="header">` with `<header class="header">`
+* Wrap `<div class="nav">` with a `<nav>` component
+* div[class="nav"] in the css had a typo in background color, removed that prop entirely
+* Replaced the `<br>`s with `<p>`
+* Replaced `<font>` with headers
+
+#### Audio
+* Added a transcript below the audio file
+
+#### Forms:
+* Added an aria-label to the search field
+* Added `<label for="ID">`, made those labels blocks in the css so they don't change the styling.
+
+#### Comment Section
+* Replaced the `div` tag with a `button`
+
+#### Table
+* Added a caption to the table
+* Replaced td with th. defined the scope of the th's (row and col)
+* Added an aria-describedby (doesn't seem to work)
+
+#### Web Component
+
 
 ## 4. Migrate to a Frontend Framework
 In this playground you will migrate your application to a frontend framework of your choice.
