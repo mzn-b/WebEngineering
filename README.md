@@ -421,9 +421,6 @@ https://dequeuniversity.com/rules/axe/4.10/color-contrast
 * Replaced td with th. defined the scope of the th's (row and col)
 * Added an aria-describedby (doesn't seem to work)
 
-#### Web Component
-
-
 ## 4. Migrate to a Frontend Framework
 In this playground you will migrate your application to a frontend framework of your choice.
 

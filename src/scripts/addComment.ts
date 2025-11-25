@@ -1,43 +1,168 @@
-export const addCommentScript = (): void => {
-  const form = document.querySelector(".comment-form");
-  const nameField = document.querySelector<HTMLInputElement>("#name");
-  const commentField = document.querySelector<HTMLInputElement>("#comment");
-  const list = document.querySelector(".comment-container");
-  const errorDisplay = document.querySelector("#comment-error-display");
+// add-comment.ts — Lint-pass version
 
-  const resetFields = (): void => {
-    if (errorDisplay !== null) errorDisplay.textContent = "";
-    if (nameField !== null) nameField.value = "";
-    if (commentField !== null) commentField.value = "";
-  };
+export interface CommentAddedDetail {
+  name: string;
+  comment: string;
+}
 
-  form?.addEventListener("submit", (e) => {
-    e.preventDefault();
+export class AddComment extends HTMLElement {
+  private readonly shadow: ShadowRoot;
 
-    const nameValue = nameField?.value.trim();
-    const commentValue = commentField?.value.trim();
-    const nameParam = document.createElement("p");
-    const commentParam = document.createElement("p");
+  constructor() {
+    super();
+
+    const template = document.createElement("template");
+    template.innerHTML = `
+      <style>
+        .comment-form {
+          margin-bottom: 3rem;
+        }
+
+        .flex-pair {
+          display: flex;
+          padding: 0 3rem 1rem;
+        }
+
+        label {
+          align-self: center;
+          flex: 2;
+          text-align: right;
+          display: block;
+          margin: 0;
+          font-size: 1.6rem;
+          font-family: 'Open Sans Condensed', sans-serif;
+        }
+
+        input {
+          margin-left: 1rem;
+          flex: 6;
+          font-size: 1.6rem;
+          line-height: 32px;
+          font-family: 'Open Sans Condensed', sans-serif;
+        }
+
+        input[type="submit"] {
+          background: #333;
+          border: 0;
+          color: white;
+          width: 30%;
+          display: block;
+          margin: 0 auto;
+          cursor: pointer;
+        }
+
+        .error {
+          color: red;
+          text-align: center;
+        }
+      </style>
+
+      <form class="comment-form">
+        <div class="flex-pair">
+          <label for="name">Your name:</label>
+          <input id="name" type="text" name="name" placeholder="Enter your name" />
+        </div>
+
+        <div class="flex-pair">
+          <label for="comment">Your comment:</label>
+          <input id="comment" type="text" name="comment" placeholder="Enter your comment" />
+        </div>
+
+        <div>
+          <input type="submit" value="Submit comment" />
+        </div>
+
+        <p class="error" id="error-display"></p>
+      </form>
+    `;
+
+    this.shadow = this.attachShadow({ mode: "open" });
+    this.shadow.appendChild(template.content.cloneNode(true));
+  }
+
+  connectedCallback(): void {
+    const form = this.shadow.querySelector("form");
+    const nameField = this.shadow.querySelector<HTMLInputElement>("#name");
+    const commentField =
+      this.shadow.querySelector<HTMLInputElement>("#comment");
+    const errorDisplay =
+      this.shadow.querySelector<HTMLParagraphElement>("#error-display");
 
     if (
-      nameValue === undefined ||
-      nameValue === "" ||
-      commentValue === undefined ||
-      commentValue === ""
+      form === null ||
+      nameField === null ||
+      commentField === null ||
+      errorDisplay === null
     ) {
-      if (errorDisplay !== null)
-        errorDisplay.textContent = "Please fill out both fields";
-      return;
+      throw new Error("AddComment: Missing form fields in Shadow DOM");
     }
 
-    nameParam.textContent = nameValue;
-    commentParam.textContent = commentValue;
+    form.addEventListener("submit", (event: SubmitEvent): void => {
+      event.preventDefault();
 
-    const listItem = document.createElement("li");
-    list?.appendChild(listItem);
-    listItem.appendChild(nameParam);
-    listItem.appendChild(commentParam);
+      const name = nameField.value.trim();
+      const comment = commentField.value.trim();
 
-    resetFields();
-  });
-};
+      if (name === "" || comment === "") {
+        errorDisplay.textContent = "Please fill out both fields";
+        return;
+      }
+
+      errorDisplay.textContent = "";
+
+      const detail: CommentAddedDetail = { name, comment };
+
+      this.dispatchEvent(
+        new CustomEvent<CommentAddedDetail>("comment-added", {
+          detail,
+          bubbles: true,
+          composed: true,
+        }),
+      );
+
+      nameField.value = "";
+      commentField.value = "";
+    });
+  }
+}
+
+customElements.define("add-comment", AddComment);
+
+function isCommentAddedEvent(
+  event: Event,
+): event is CustomEvent<CommentAddedDetail> {
+  return (
+    event instanceof CustomEvent &&
+    typeof event.detail === "object" &&
+    event.detail !== null &&
+    "name" in event.detail &&
+    "comment" in event.detail
+  );
+}
+
+document.addEventListener("comment-added", (event: Event): void => {
+  if (!isCommentAddedEvent(event)) {
+    return;
+  }
+
+  const {
+    detail: { name, comment },
+  } = event;
+
+  const list = document.querySelector<HTMLUListElement>(".comment-container");
+  if (list === null) {
+    return;
+  }
+
+  const li = document.createElement("li");
+
+  const nameP = document.createElement("p");
+  nameP.textContent = name;
+
+  const commentP = document.createElement("p");
+  commentP.textContent = comment;
+
+  li.appendChild(nameP);
+  li.appendChild(commentP);
+  list.appendChild(li);
+});
