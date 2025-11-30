@@ -431,6 +431,17 @@ In this playground you will migrate your application to a frontend framework of 
   * Make use of provided framework features for a clean project structure like components, templates, state,...
 * Adapt your `npm scripts` if necessary.
 
+### Solution
+Created a fresh vite react + typescript app and copied the setup from there (tsconfig, index.html, vite.config.ts)
+
+Important: replace eslint rules as well.
+
+Replaced all the content from index.html with tsx files.
+
+Used a context for the search bar.
+
+Played around with emotion css but decided it wasn't worth it.
+
 ## 5. Integrate a Backend Framework
 In this playground you will use a backend framework of your choice and connect it over an API to your frontend application. Additionally, you will dockerize your frontend and backend applications. It should be possible to start all services in the corresponding mode (development, production) with a single command (e.g. use Docker Compose for this).
 
