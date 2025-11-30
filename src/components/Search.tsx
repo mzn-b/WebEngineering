@@ -1,5 +1,5 @@
-import { useSearch } from "../context/SearchContextProvider.tsx";
 import { useState } from "react";
+import { useSearch } from "../hooks/useSearch.tsx";
 
 export const Search = () => {
   const [searchValue, setSearchValue] = useState("");

@@ -1,5 +1,5 @@
 import type { FC } from "react";
-import { useSearch } from "../context/SearchContextProvider.tsx";
+import { useSearch } from "../hooks/useSearch.tsx";
 
 interface HighlightProps {
   text: string;
