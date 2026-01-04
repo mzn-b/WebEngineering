@@ -1,3 +1,7 @@
+############################
+####      Frontend       ###
+############################
+
 # Logs
 logs
 *.log
@@ -25,3 +29,42 @@ build
 *.sw?
 
 coverage
+
+############################
+####      Backend        ###
+############################
+
+./webeng-backend/HELP.md
+./webeng-backend/target/
+./webeng-backend/.mvn/wrapper/maven-wrapper.jar
+./webeng-backend/!**/src/main/**/target/
+./webeng-backend/target/*
+./webeng-backend/!**/src/test/**/target/
+
+### STS ###
+./webeng-backend/.apt_generated
+./webeng-backend/.classpath
+./webeng-backend/.factorypath
+./webeng-backend/.project
+./webeng-backend/.settings
+./webeng-backend/.springBeans
+./webeng-backend/.sts4-cache
+
+### IntelliJ IDEA ###
+./webeng-backend/.idea
+./webeng-backend/*.iws
+./webeng-backend/*.iml
+./webeng-backend/*.ipr
+
+### NetBeans ###
+./webeng-backend//nbproject/private/
+./webeng-backend//nbbuild/
+./webeng-backend//dist/
+./webeng-backend//nbdist/
+./webeng-backend//.nb-gradle/
+./webeng-backend/build/
+./webeng-backend/!**/src/main/**/build/
+./webeng-backend/!**/src/test/**/build/
+
+### VS Code ###
+./webeng-backend/.vscode/
